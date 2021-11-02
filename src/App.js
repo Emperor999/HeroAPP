@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import {useState, useEffect } from "react";
 import axios from "axios";
 
 export default function App() {
@@ -24,10 +24,8 @@ export default function App() {
   }, []);
   return (
     <div className="App">
-      <h1>Hello CodeSandbox</h1>
-      <h2>Start editing to see some magic happen!</h2>
       {heroes.map((hero, index) => (
-        <button
+       <div><button
           key={index}
           onClick={() => {
             setId(hero.id);
@@ -38,15 +36,17 @@ export default function App() {
             );
           }}
         >
-          {hero.id}|{hero.name}
+          {hero.id} {hero.name}
         </button>
+        </div>
       ))}
       <br />
-      <h3>{heroName} details</h3>
-      <span>{id}</span>
-      <input type="text" defaultValue={heroName} />
+      <h3>{heroName.toUpperCase()} details</h3>
+     <div>id : {id}</div>
+     Hero Name : <input type="text" defaultValue={heroName} />
       <br />
       <button onClick={() => setMessage("")}>Clear message</button>
+      <h1 style={{color :"red"}}>Message</h1>
       <h2>
         {message.split("\n").map((mes, index) => (
           <p key={index}>{mes}</p>
