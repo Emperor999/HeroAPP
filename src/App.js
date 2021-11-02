@@ -1,25 +1,57 @@
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
+import { useState, useEffect } from "react";
+import axios from "axios";
+
+export default function App() {
+  const [heroes, setHeroes] = useState([]);
+  const [id, setId] = useState("");
+  const [heroName, setHeroName] = useState("");
+  const [message, setMessage] = useState("");
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const res = await axios.get(
+          "https://60dff0ba6b689e001788c858.mockapi.io/heroes"
+        );
+        const data = res.data;
+        console.log(data);
+        setHeroes(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchPost();
+  }, []);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      <h1>Hello CodeSandbox</h1>
+      <h2>Start editing to see some magic happen!</h2>
+      {heroes.map((hero, index) => (
+        <button
+          key={index}
+          onClick={() => {
+            setId(hero.id);
+            setHeroName(hero.name);
+            setMessage(
+              (previousMes) =>
+                previousMes + `HeroesComponent: Selected hero id=${hero.id}\n`
+            );
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          {hero.id}|{hero.name}
+        </button>
+      ))}
+      <br />
+      <h3>{heroName} details</h3>
+      <span>{id}</span>
+      <input type="text" defaultValue={heroName} />
+      <br />
+      <button onClick={() => setMessage("")}>Clear message</button>
+      <h2>
+        {message.split("\n").map((mes, index) => (
+          <p key={index}>{mes}</p>
+        ))}
+      </h2>
     </div>
   );
 }
-
-export default App;
